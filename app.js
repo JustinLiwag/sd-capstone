@@ -28,6 +28,10 @@ app.use(express.urlencoded({ extended: true }));
 // Method Override for Forms
 app.use(methodOverride('_method'));
 
+// ------ Middleware -------
+
+// ------- Routes -------
+
 app.get('/', (req, res) => {
 	res.render('home');
 });
@@ -79,6 +83,14 @@ app.delete('/restaurants/:id/delete', async (req, res) => {
 	await Restaurant.findByIdAndDelete(id);
 	res.redirect('/restaurants');
 });
+
+// ------- 404 -------
+
+app.use((req, res) => {
+	res.status(404).send('Page not found');
+});
+
+// ------- APP Listener -------
 
 app.listen(3000, () => {
 	console.log('Running on port 3000');
