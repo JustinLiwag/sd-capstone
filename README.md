@@ -1,1 +1,1 @@
-# sd-capstone
+# Welcome to the Capstone!
