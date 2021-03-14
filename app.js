@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
+const ejsMate = require('ejs-mate');
 const Restaurant = require('./models/restaurant');
 
 // Database Config
@@ -18,9 +19,14 @@ db.once('open', () => {
 	console.log('Database connected');
 });
 
-// Set EJS View Engine and Path Fix
+// Set EJS View Engine, EJS mate, and Path Fix
 app.set('view engine', 'ejs');
+app.engine('ejs', ejsMate);
 app.set('views', path.join(__dirname, 'views'));
+
+// Add Public Folder and fix our path
+app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, '/public')));
 
 // Parse Body Data
 app.use(express.urlencoded({ extended: true }));
@@ -39,12 +45,12 @@ app.get('/', (req, res) => {
 // Restaurant Index Page
 app.get('/restaurants', async (req, res) => {
 	const restaurants = await Restaurant.find({});
-	res.render('index', { restaurants });
+	res.render('restaurants/index', { restaurants });
 });
 
 // Render New Restaurant Page
 app.get('/restaurants/new', (req, res) => {
-	res.render('new');
+	res.render('restaurants/new');
 });
 
 // Create New Restaurant Endpoint
@@ -58,14 +64,14 @@ app.post('/restaurants', async (req, res) => {
 app.get('/restaurants/:id', async (req, res) => {
 	const { id } = req.params;
 	const restaurant = await Restaurant.findById(id);
-	res.render('show', { restaurant });
+	res.render('restaurants/show', { restaurant });
 });
 
 // Render Edit Restaurant Page
 app.get('/restaurants/:id/edit', async (req, res) => {
 	const { id } = req.params;
 	const restaurant = await Restaurant.findById(id);
-	res.render('edit', { restaurant });
+	res.render('restaurants/edit', { restaurant });
 });
 
 // Update Restaurant Endpoint

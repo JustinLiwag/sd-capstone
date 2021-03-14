@@ -14,21 +14,126 @@ db.once('open', () => {
 });
 
 const sampleRestaurants = [
-	{ name: 'Urth Caffe', location: 'Pasadena, California' },
-	{ name: 'Lucky Boys', location: 'Pasadena, California' },
-	{ name: 'Crust & Crumble', location: 'Glendora, California' },
-	{ name: 'Stuff I Eat', location: 'Inglewood, California' },
-	{ name: 'Pie Life', location: 'Pasadena, California' },
-	{ name: 'California Donuts', location: 'Los Angeles, California' },
-	{ name: 'Triple Beam Pizza', location: 'Los Angeles, California' },
-	{ name: 'Pizzanista', location: 'Los Angeles, California' },
-	{ name: 'Big Als Pizzeria', location: 'Maywood, California' },
-	{ name: 'Dough Girl', location: 'Sylmar, California' },
-	{ name: 'Masala', location: 'Fort Wayne, Indiana' },
-	{ name: 'Grassfed Grill', location: 'New York,New York' },
-	{ name: "Freddy's Stove", location: 'Los Angeles, California' },
-	{ name: 'Whispering Bamboo', location: 'Pasadena, California' },
-	{ name: 'Mediterra Seafood', location: 'Honolulu,Hawaii' },
+	{
+		name: 'Urth Caffe',
+		location: 'Pasadena, California',
+		image: 'https://source.unsplash.com/collection/1343727/1600x900',
+		description:
+			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
+		price: '$$',
+	},
+	{
+		name: 'Lucky Boys',
+		location: 'Pasadena, California',
+		image: 'https://source.unsplash.com/collection/1343727/1600x900',
+		description:
+			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
+		price: '$$',
+	},
+	{
+		name: 'Crust & Crumble',
+		location: 'Glendora, California',
+		image: 'https://source.unsplash.com/collection/1343727/1600x900',
+		description:
+			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
+		price: '$$',
+	},
+	{
+		name: 'Stuff I Eat',
+		location: 'Inglewood, California',
+		image: 'https://source.unsplash.com/collection/1343727/1600x900',
+		description:
+			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
+		price: '$$',
+	},
+	{
+		name: 'Pie Life',
+		location: 'Pasadena, California',
+		image: 'https://source.unsplash.com/collection/1343727/1600x900',
+		description:
+			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
+		price: '$$',
+	},
+	{
+		name: 'California Donuts',
+		location: 'Los Angeles, California',
+		image: 'https://source.unsplash.com/collection/1343727/1600x900',
+		description:
+			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
+		price: '$$',
+	},
+	{
+		name: 'Triple Beam Pizza',
+		location: 'Los Angeles, California',
+		image: 'https://source.unsplash.com/collection/1343727/1600x900',
+		description:
+			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
+		price: '$$',
+	},
+	{
+		name: 'Pizzanista',
+		location: 'Los Angeles, California',
+		image: 'https://source.unsplash.com/collection/1343727/1600x900',
+		description:
+			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
+		price: '$$',
+	},
+	{
+		name: 'Big Als Pizzeria',
+		location: 'Maywood, California',
+		image: 'https://source.unsplash.com/collection/1343727/1600x900',
+		description:
+			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
+		price: '$$',
+	},
+	{
+		name: 'Dough Girl',
+		location: 'Sylmar, California',
+		image: 'https://source.unsplash.com/collection/1343727/1600x900',
+		description:
+			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
+		price: '$$',
+	},
+	{
+		name: 'Masala',
+		location: 'Fort Wayne, Indiana',
+		image: 'https://source.unsplash.com/collection/1343727/1600x900',
+		description:
+			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
+		price: '$$',
+	},
+	{
+		name: 'Grassfed Grill',
+		location: 'New York,New York',
+		image: 'https://source.unsplash.com/collection/1343727/1600x900',
+		description:
+			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
+		price: '$$',
+	},
+	{
+		name: "Freddy's Stove",
+		location: 'Los Angeles, California',
+		image: 'https://source.unsplash.com/collection/1343727/1600x900',
+		description:
+			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
+		price: '$$',
+	},
+	{
+		name: 'Whispering Bamboo',
+		location: 'Pasadena, California',
+		image: 'https://source.unsplash.com/collection/1343727/1600x900',
+		description:
+			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
+		price: '$$',
+	},
+	{
+		name: 'Mediterra Seafood',
+		location: 'Honolulu,Hawaii',
+		image: 'https://source.unsplash.com/collection/1343727/1600x900',
+		description:
+			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
+		price: '$$',
+	},
 ];
 
 const seedDB = async () => {

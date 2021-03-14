@@ -1,0 +1,11 @@
+<% layout("./layout/boilerplate") %>
+<h1>All Restaurants</h1>
+<div>
+    <a href="/restaurants/new">Create a new
+        restaurant</a>
+</div>
+<ul>
+    <% for (let restaurant of restaurants) {%>
+    <li><a href="restaurants/<%= restaurant.id %>"><%= restaurant.name %></a></li>
+    <% } %>
+</ul>
