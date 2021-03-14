@@ -4,7 +4,10 @@ const path = require('path');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
+const Joi = require('joi');
+const { restaurantSchema } = require('./joiSchemas');
 const AppError = require('./utilities/AppError');
+const asyncCatcher = require('./utilities/asyncCatcher');
 
 const Restaurant = require('./models/restaurant');
 
@@ -36,15 +39,17 @@ app.use(express.urlencoded({ extended: true }));
 // Method Override for Forms
 app.use(methodOverride('_method'));
 
-// ------ Async Error Wrapper -------
-
-function asyncCatcher(func) {
-	return function (req, res, next) {
-		func(req, res, next).catch((e) => next(e));
-	};
-}
-
 // ------ Middleware -------
+
+const validateRestaurant = (req, res, next) => {
+	const { error } = restaurantSchema.validate(req.body);
+	if (error) {
+		const msg = error.details.map((e) => e.message).join(',');
+		throw new AppError(msg, 400);
+	} else {
+		next();
+	}
+};
 
 // ------- Routes -------
 
@@ -69,6 +74,7 @@ app.get('/restaurants/new', (req, res) => {
 // Create New Restaurant Endpoint
 app.post(
 	'/restaurants',
+	validateRestaurant,
 	asyncCatcher(async (req, res) => {
 		const restaurant = new Restaurant(req.body.restaurant);
 		await restaurant.save();
@@ -102,6 +108,7 @@ app.get(
 // Update Restaurant Endpoint
 app.put(
 	'/restaurants/:id',
+	validateRestaurant,
 	asyncCatcher(async (req, res) => {
 		const { id } = req.params;
 		const restaurant = await Restaurant.findByIdAndUpdate(id, {
@@ -123,15 +130,15 @@ app.delete(
 
 // ------- 404 -------
 
-app.use((req, res) => {
-	res.status(404).send('Page not found');
+app.all('*', (req, res, next) => {
+	next(new AppError('Page Not Found'), 404);
 });
 
 // ------- ERROR MIDDLEWARE -------
 app.use((err, req, res, next) => {
 	const { status = 500 } = err;
 	const { message = 'I am in danger' } = err;
-	res.status(status).send(message);
+	res.status(status).render('error', { err });
 });
 
 // ------- APP Listener -------

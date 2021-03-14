@@ -7,6 +7,7 @@ const RestaurantSchema = new Schema({
 	price: String,
 	description: String,
 	location: String,
+	dateOpened: Number,
 });
 
 module.exports = mongoose.model('Restaurant', RestaurantSchema);

@@ -1,23 +1,25 @@
 <% layout("./layout/boilerplate") %>
 <h1 class="text-center">Edit <%=restaurant.name%></h1>
 <div class="col-6 offset-3">
-    <form action="/restaurants/<%=restaurant.id%>/?_method=PUT" method="POST">
+    <form class="needs-validation" action="/restaurants/<%=restaurant.id%>/?_method=PUT" method="POST" novalidate>
         <div class="mb-3">
             <label class="form-label" for="name">Name</label>
-            <input class="form-control" type="text" id="name" name="restaurant[name]" value="<%= restaurant.name %>">
+            <input class="form-control" type="text" id="name" name="restaurant[name]" value="<%= restaurant.name %>"
+                required>
         </div>
         <div class="mb-3">
             <label class="form-label" for="location">Restaurant Location</label>
             <input class="form-control" type="text" id="location" name="restaurant[location]"
-                value="<%= restaurant.location %>">
+                value="<%= restaurant.location %>" required>
         </div>
         <div class=" mb-3">
             <label class="form-label" for="image">Restaurant Image</label>
-            <input class="form-control" type="text" id="image" name="restaurant[image]" value="<%= restaurant.image %>">
+            <input class="form-control" type="text" id="image" name="restaurant[image]" value="<%= restaurant.image %>"
+                required>
         </div>
         <div class=" mb-3">
             <label class="form-label" for="price">Restaurant Price</label>
-            <select class="form-control" name="restaurant[price]" id="price" value="<%= restaurant.price %>"">
+            <select class="form-control" name="restaurant[price]" id="price" value="<%= restaurant.price %>" required>
                 <option value=" $">$</option>
                 <option value="$$">$$</option>
                 <option value="$$$">$$$</option>
@@ -26,7 +28,12 @@
         <div class="mb-3">
             <label class="form-label" for="description">Restaurant Description</label>
             <input class="form-control" type="text" id="description" name="restaurant[description]"
-                value="<%= restaurant.description %>">
+                value="<%= restaurant.description %>" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="dateOpened">Restaurant Open Date</label>
+            <input class="form-control" type="text" id="dateOpened" name="restaurant[dateOpened]"
+                value="<%= restaurant.dateOpened %>" required>
         </div>
         <div class="mb-3">
             <button class="btn btn-success">Submit</button>

@@ -1,22 +1,22 @@
 <% layout("./layout/boilerplate") %>
 <h1 class="text-center">Create a new Restaurant</h1>
 <div class="col-6 offset-3">
-    <form action="/restaurants" method="POST">
+    <form class="needs-validation" action="/restaurants" method="POST" novalidate>
         <div class="mb-3">
             <label class="form-label" for="name">Name</label>
-            <input class="form-control" type="text" id="name" name="restaurant[name]">
+            <input class="form-control" type="text" id="name" name="restaurant[name]" required>
         </div>
         <div class="mb-3">
             <label class="form-label" for="location">Restaurant Location</label>
-            <input class="form-control" type="text" id="location" name="restaurant[location]">
+            <input class="form-control" type="text" id="location" name="restaurant[location]" required>
         </div>
         <div class="mb-3">
             <label class="form-label" for="image">Restaurant Image</label>
-            <input class="form-control" type="text" id="image" name="restaurant[image]">
+            <input class="form-control" type="text" id="image" name="restaurant[image]" required>
         </div>
         <div class="mb-3">
             <label class="form-label" for="price">Restaurant Price</label>
-            <select class="form-control" name="restaurant[price]" id="price">
+            <select class="form-control" name="restaurant[price]" id="price" required>
                 <option value="$">$</option>
                 <option value="$$">$$</option>
                 <option value="$$$">$$$</option>
@@ -24,7 +24,11 @@
         </div>
         <div class="mb-3">
             <label class="form-label" for="description">Restaurant Description</label>
-            <input class="form-control" type="text" id="description" name="restaurant[description]">
+            <input class="form-control" type="text" id="description" name="restaurant[description]" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="dateOpened">Restaurant Open Date</label>
+            <input class="form-control" type="text" id="dateOpened" name="restaurant[dateOpened]" required>
         </div>
         <div class="mb-3">
             <button class="btn btn-success">Submit</button>
