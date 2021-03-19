@@ -5,11 +5,12 @@ const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const Joi = require('joi');
-const { restaurantSchema } = require('./joiSchemas');
+const { restaurantSchema, reviewSchema } = require('./joiSchemas');
 const AppError = require('./utilities/AppError');
 const asyncCatcher = require('./utilities/asyncCatcher');
 
 const Restaurant = require('./models/restaurant');
+const Review = require('./models/review');
 
 // Database Config
 mongoose.connect('mongodb://localhost:27017/restaurantCapstone', {
@@ -43,6 +44,16 @@ app.use(methodOverride('_method'));
 
 const validateRestaurant = (req, res, next) => {
 	const { error } = restaurantSchema.validate(req.body);
+	if (error) {
+		const msg = error.details.map((e) => e.message).join(',');
+		throw new AppError(msg, 400);
+	} else {
+		next();
+	}
+};
+
+const validateReview = (req, res, next) => {
+	const { error } = reviewSchema.validate(req.body);
 	if (error) {
 		const msg = error.details.map((e) => e.message).join(',');
 		throw new AppError(msg, 400);
@@ -87,7 +98,7 @@ app.get(
 	'/restaurants/:id',
 	asyncCatcher(async (req, res, next) => {
 		const { id } = req.params;
-		const restaurant = await Restaurant.findById(id);
+		const restaurant = await Restaurant.findById(id).populate('reviews');
 		if (!restaurant) {
 			throw new AppError('Product not found!', 404);
 		}
@@ -125,6 +136,34 @@ app.delete(
 		const { id } = req.params;
 		await Restaurant.findByIdAndDelete(id);
 		res.redirect('/restaurants');
+	})
+);
+
+// ------- Review Routes -------
+
+// Create Review Endpoint
+app.post(
+	'/restaurants/:id/reviews',
+	validateReview,
+	asyncCatcher(async (req, res) => {
+		const { id } = req.params;
+		const restaurant = await Restaurant.findById(id);
+		const review = new Review(req.body.review);
+		restaurant.reviews.push(review);
+		await review.save();
+		await restaurant.save();
+		res.redirect(`/restaurants/${id}`);
+	})
+);
+
+// Delete Review Endpoint
+app.delete(
+	'/restaurants/:id/reviews/:reviewId',
+	asyncCatcher(async (req, res) => {
+		const { id, reviewId } = req.params;
+		await Restaurant.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+		await Review.findByIdAndDelete(reviewId);
+		res.redirect(`/restaurants/${id}`);
 	})
 );
 

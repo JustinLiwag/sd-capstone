@@ -11,4 +11,28 @@
 <form action="/restaurants/<%=restaurant.id%>/delete?_method=DELETE" method="POST">
     <button>Delete Restaurant</button>
 </form>
+<h2>Leave a Review</h2>
+<form class="needs-validation" action="/restaurants/<%=restaurant.id%>/reviews" method="POST" novalidate>
+    <div>
+        <label class="form-label" for="rating">Rating</label>
+        <input class="form-range" name="review[rating]" type="range" min="1" max="5" step="1" required>
+    </div>
+    <div>
+        <label class="form-label" for="body">Review</label>
+        <textarea class="form-control" name="review[body]" id="body" cols="30" rows="5" required></textarea>
+    </div>
+    <button>Submit</button>
+</form>
+<div>
+    <h3>Reviews</h3>
+    <% for (let reviews of restaurant.reviews) {%>
+    <div>
+        <p>Rating: <%=reviews.rating%></p>
+        <p>Reviews: <%=reviews.body%></p>
+        <form action="/restaurants/<%=restaurant.id%>/reviews/<%=reviews.id%>?_method=delete" method="POST">
+            <button>Delete</button>
+        </form>
+    </div>
+    <%}%>
+</div>
 <a href="/restaurants">Go back to all the restaurants</a>
