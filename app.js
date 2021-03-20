@@ -5,12 +5,12 @@ const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const Joi = require('joi');
-const { restaurantSchema, reviewSchema } = require('./joiSchemas');
 const AppError = require('./utilities/AppError');
-const asyncCatcher = require('./utilities/asyncCatcher');
+const flash = require('connect-flash');
+const session = require('express-session');
 
-const Restaurant = require('./models/restaurant');
-const Review = require('./models/review');
+const restaurantRoutes = require('./routes/restaurants');
+const reviewRoutes = require('./routes/reviews');
 
 // Database Config
 mongoose.connect('mongodb://localhost:27017/restaurantCapstone', {
@@ -40,132 +40,39 @@ app.use(express.urlencoded({ extended: true }));
 // Method Override for Forms
 app.use(methodOverride('_method'));
 
-// ------ Middleware -------
-
-const validateRestaurant = (req, res, next) => {
-	const { error } = restaurantSchema.validate(req.body);
-	if (error) {
-		const msg = error.details.map((e) => e.message).join(',');
-		throw new AppError(msg, 400);
-	} else {
-		next();
-	}
+// Express Session
+const sessionConfig = {
+	secret: 'drake',
+	resave: false,
+	saveUninitialized: true,
+	cookie: {
+		httpOnly: true,
+		expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+	},
 };
+app.use(session(sessionConfig));
 
-const validateReview = (req, res, next) => {
-	const { error } = reviewSchema.validate(req.body);
-	if (error) {
-		const msg = error.details.map((e) => e.message).join(',');
-		throw new AppError(msg, 400);
-	} else {
-		next();
-	}
-};
+// Connect Flash
+app.use(flash());
 
-// ------- Routes -------
+// ------- Middleware -------
+app.use((req, res, next) => {
+	res.locals.success = req.flash('success');
+	res.locals.error = req.flash('error');
+	next();
+});
+
+// ------- Index Route -------
 
 app.get('/', (req, res) => {
 	res.render('home');
 });
 
-// Restaurant Index Page
-app.get(
-	'/restaurants',
-	asyncCatcher(async (req, res) => {
-		const restaurants = await Restaurant.find({});
-		res.render('restaurants/index', { restaurants });
-	})
-);
-
-// Render New Restaurant Page
-app.get('/restaurants/new', (req, res) => {
-	res.render('restaurants/new');
-});
-
-// Create New Restaurant Endpoint
-app.post(
-	'/restaurants',
-	validateRestaurant,
-	asyncCatcher(async (req, res) => {
-		const restaurant = new Restaurant(req.body.restaurant);
-		await restaurant.save();
-		res.redirect(`/restaurants/${restaurant.id}`);
-	})
-);
-
-// Show Individual Restaurant Details
-app.get(
-	'/restaurants/:id',
-	asyncCatcher(async (req, res, next) => {
-		const { id } = req.params;
-		const restaurant = await Restaurant.findById(id).populate('reviews');
-		if (!restaurant) {
-			throw new AppError('Product not found!', 404);
-		}
-		res.render('restaurants/show', { restaurant });
-	})
-);
-
-// Render Edit Restaurant Page
-app.get(
-	'/restaurants/:id/edit',
-	asyncCatcher(async (req, res) => {
-		const { id } = req.params;
-		const restaurant = await Restaurant.findById(id);
-		res.render('restaurants/edit', { restaurant });
-	})
-);
-
-// Update Restaurant Endpoint
-app.put(
-	'/restaurants/:id',
-	validateRestaurant,
-	asyncCatcher(async (req, res) => {
-		const { id } = req.params;
-		const restaurant = await Restaurant.findByIdAndUpdate(id, {
-			...req.body.restaurant,
-		});
-		res.redirect(`/restaurants/${restaurant.id}`);
-	})
-);
-
-// Delete Restaurant Endpoint
-app.delete(
-	'/restaurants/:id/delete',
-	asyncCatcher(async (req, res) => {
-		const { id } = req.params;
-		await Restaurant.findByIdAndDelete(id);
-		res.redirect('/restaurants');
-	})
-);
+// ------- Restaurant Routes -------
+app.use('/restaurants', restaurantRoutes);
 
 // ------- Review Routes -------
-
-// Create Review Endpoint
-app.post(
-	'/restaurants/:id/reviews',
-	validateReview,
-	asyncCatcher(async (req, res) => {
-		const { id } = req.params;
-		const restaurant = await Restaurant.findById(id);
-		const review = new Review(req.body.review);
-		restaurant.reviews.push(review);
-		await review.save();
-		await restaurant.save();
-		res.redirect(`/restaurants/${id}`);
-	})
-);
-
-// Delete Review Endpoint
-app.delete(
-	'/restaurants/:id/reviews/:reviewId',
-	asyncCatcher(async (req, res) => {
-		const { id, reviewId } = req.params;
-		await Restaurant.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
-		await Review.findByIdAndDelete(reviewId);
-		res.redirect(`/restaurants/${id}`);
-	})
-);
+app.use('/restaurants/:id/reviews', reviewRoutes);
 
 // ------- 404 -------
 
