@@ -3,6 +3,7 @@ const router = express.Router();
 const { restaurantSchema } = require('../joiSchemas');
 const AppError = require('../utilities/AppError');
 const asyncCatcher = require('../utilities/asyncCatcher');
+const { isAuthenticated } = require('../middleware/isAuthenticated');
 
 const Restaurant = require('../models/restaurant');
 
@@ -26,13 +27,14 @@ router.get(
 );
 
 // Render New Restaurant Page
-router.get('/new', (req, res) => {
+router.get('/new', isAuthenticated, (req, res) => {
 	res.render('restaurants/new');
 });
 
 // Create New Restaurant Endpoint
 router.post(
 	'/',
+	isAuthenticated,
 	validateRestaurant,
 	asyncCatcher(async (req, res) => {
 		const restaurant = new Restaurant(req.body.restaurant);
@@ -59,6 +61,7 @@ router.get(
 // Render Edit Restaurant Page
 router.get(
 	'/:id/edit',
+	isAuthenticated,
 	asyncCatcher(async (req, res) => {
 		const { id } = req.params;
 		const restaurant = await Restaurant.findById(id);
@@ -73,6 +76,7 @@ router.get(
 // Update Restaurant Endpoint
 router.put(
 	'/:id',
+	isAuthenticated,
 	validateRestaurant,
 	asyncCatcher(async (req, res) => {
 		const { id } = req.params;
@@ -87,6 +91,7 @@ router.put(
 // Delete Restaurant Endpoint
 router.delete(
 	'/:id/delete',
+	isAuthenticated,
 	asyncCatcher(async (req, res) => {
 		const { id } = req.params;
 		await Restaurant.findByIdAndDelete(id);

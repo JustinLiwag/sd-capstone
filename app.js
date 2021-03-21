@@ -9,8 +9,13 @@ const AppError = require('./utilities/AppError');
 const flash = require('connect-flash');
 const session = require('express-session');
 
+const passport = require('passport');
+const PassportLocal = require('passport-local');
+const User = require('./models/user');
+
 const restaurantRoutes = require('./routes/restaurants');
 const reviewRoutes = require('./routes/reviews');
+const authRoutes = require('./routes/users');
 
 // Database Config
 mongoose.connect('mongodb://localhost:27017/restaurantCapstone', {
@@ -55,8 +60,19 @@ app.use(session(sessionConfig));
 // Connect Flash
 app.use(flash());
 
+// Passport Configuration/Settings
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new PassportLocal(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 // ------- Middleware -------
+
+// Local Variables
 app.use((req, res, next) => {
+	res.locals.user = req.user;
 	res.locals.success = req.flash('success');
 	res.locals.error = req.flash('error');
 	next();
@@ -73,6 +89,9 @@ app.use('/restaurants', restaurantRoutes);
 
 // ------- Review Routes -------
 app.use('/restaurants/:id/reviews', reviewRoutes);
+
+// ------- Auth Routes -------
+app.use('/', authRoutes);
 
 // ------- 404 -------
 
