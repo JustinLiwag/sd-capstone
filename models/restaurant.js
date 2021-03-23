@@ -9,6 +9,10 @@ const RestaurantSchema = new Schema({
 	description: String,
 	location: String,
 	dateOpened: Number,
+	submittedBy: {
+		type: Schema.Types.ObjectId,
+		ref: 'User',
+	},
 	reviews: [
 		{
 			type: Schema.Types.ObjectId,

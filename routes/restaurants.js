@@ -3,19 +3,13 @@ const router = express.Router();
 const { restaurantSchema } = require('../joiSchemas');
 const AppError = require('../utilities/AppError');
 const asyncCatcher = require('../utilities/asyncCatcher');
-const { isAuthenticated } = require('../middleware/isAuthenticated');
+const {
+	isAuthenticated,
+	validateRestaurant,
+	isCreator,
+} = require('../middleware/middleware');
 
 const Restaurant = require('../models/restaurant');
-
-const validateRestaurant = (req, res, next) => {
-	const { error } = restaurantSchema.validate(req.body);
-	if (error) {
-		const msg = error.details.map((e) => e.message).join(',');
-		throw new AppError(msg, 400);
-	} else {
-		next();
-	}
-};
 
 // Restaurant Index Page
 router.get(
@@ -38,6 +32,7 @@ router.post(
 	validateRestaurant,
 	asyncCatcher(async (req, res) => {
 		const restaurant = new Restaurant(req.body.restaurant);
+		restaurant.submittedBy = req.user._id;
 		await restaurant.save();
 		req.flash('success', 'New restaurant was successfully added!');
 		res.redirect(`/restaurants/${restaurant.id}`);
@@ -49,7 +44,14 @@ router.get(
 	'/:id',
 	asyncCatcher(async (req, res, next) => {
 		const { id } = req.params;
-		const restaurant = await Restaurant.findById(id).populate('reviews');
+		const restaurant = await Restaurant.findById(id)
+			.populate({
+				path: 'reviews',
+				populate: {
+					path: 'author',
+				},
+			})
+			.populate('submittedBy');
 		if (!restaurant) {
 			req.flash('error', 'Restaurant does not exist!');
 			res.redirect('/restaurants');
@@ -62,6 +64,7 @@ router.get(
 router.get(
 	'/:id/edit',
 	isAuthenticated,
+	isCreator,
 	asyncCatcher(async (req, res) => {
 		const { id } = req.params;
 		const restaurant = await Restaurant.findById(id);
@@ -77,6 +80,7 @@ router.get(
 router.put(
 	'/:id',
 	isAuthenticated,
+	isCreator,
 	validateRestaurant,
 	asyncCatcher(async (req, res) => {
 		const { id } = req.params;
@@ -92,6 +96,7 @@ router.put(
 router.delete(
 	'/:id/delete',
 	isAuthenticated,
+	isCreator,
 	asyncCatcher(async (req, res) => {
 		const { id } = req.params;
 		await Restaurant.findByIdAndDelete(id);

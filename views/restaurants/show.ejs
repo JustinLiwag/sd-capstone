@@ -3,14 +3,19 @@
 <h1><%= restaurant.name %></h1>
 <p>Opened: <%= restaurant.dateOpened %></p>
 <h2><%= restaurant.location %> <span><%= restaurant.price %></span></h2>
+<p>Submitted By: <%= restaurant.submittedBy.username  %> </p>
 
 <p><%= restaurant.description%></p>
+<% if(user && restaurant.submittedBy.equals(user) ) { %>
 <div>
     <a href="/restaurants/<%=restaurant.id%>/edit">Edit <%= restaurant.name %> </a>
 </div>
 <form action="/restaurants/<%=restaurant.id%>/delete?_method=DELETE" method="POST">
     <button>Delete Restaurant</button>
 </form>
+<% } %>
+
+<% if(user) { %>
 <h2>Leave a Review</h2>
 <form class="needs-validation" action="/restaurants/<%=restaurant.id%>/reviews" method="POST" novalidate>
     <div>
@@ -23,15 +28,19 @@
     </div>
     <button>Submit</button>
 </form>
+<% } %>
 <div>
     <h3>Reviews</h3>
     <% for (let reviews of restaurant.reviews) {%>
     <div>
         <p>Rating: <%=reviews.rating%></p>
+        <p>Author: <%= reviews.author.username %></p>
         <p>Reviews: <%=reviews.body%></p>
+        <% if(user && reviews.author.equals(user) ) { %>
         <form action="/restaurants/<%=restaurant.id%>/reviews/<%=reviews.id%>?_method=delete" method="POST">
             <button>Delete</button>
         </form>
+        <% } %>
     </div>
     <%}%>
 </div>

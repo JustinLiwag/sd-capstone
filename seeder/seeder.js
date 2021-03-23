@@ -22,6 +22,7 @@ const sampleRestaurants = [
 			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
 		price: '$$',
 		dateOpened: 2015,
+		submittedBy: '6057d7a07a644b19ad1e0f6e',
 	},
 	{
 		name: 'Lucky Boys',
@@ -31,6 +32,7 @@ const sampleRestaurants = [
 			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
 		price: '$$',
 		dateOpened: 2015,
+		submittedBy: '6057d7a07a644b19ad1e0f6e',
 	},
 	{
 		name: 'Crust & Crumble',
@@ -40,6 +42,7 @@ const sampleRestaurants = [
 			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
 		price: '$$',
 		dateOpened: 2015,
+		submittedBy: '6057d7a07a644b19ad1e0f6e',
 	},
 	{
 		name: 'Stuff I Eat',
@@ -49,6 +52,7 @@ const sampleRestaurants = [
 			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
 		price: '$$',
 		dateOpened: 2015,
+		submittedBy: '6057d7a07a644b19ad1e0f6e',
 	},
 	{
 		name: 'Pie Life',
@@ -58,6 +62,7 @@ const sampleRestaurants = [
 			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
 		price: '$$',
 		dateOpened: 2015,
+		submittedBy: '6057d7a07a644b19ad1e0f6e',
 	},
 	{
 		name: 'California Donuts',
@@ -67,6 +72,7 @@ const sampleRestaurants = [
 			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
 		price: '$$',
 		dateOpened: 2015,
+		submittedBy: '6057d7a07a644b19ad1e0f6e',
 	},
 	{
 		name: 'Triple Beam Pizza',
@@ -76,6 +82,7 @@ const sampleRestaurants = [
 			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
 		price: '$$',
 		dateOpened: 2015,
+		submittedBy: '6057d7a07a644b19ad1e0f6e',
 	},
 	{
 		name: 'Pizzanista',
@@ -85,6 +92,7 @@ const sampleRestaurants = [
 			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
 		price: '$$',
 		dateOpened: 2015,
+		submittedBy: '6057d7a07a644b19ad1e0f6e',
 	},
 	{
 		name: 'Big Als Pizzeria',
@@ -94,6 +102,7 @@ const sampleRestaurants = [
 			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
 		price: '$$',
 		dateOpened: 2015,
+		submittedBy: '6057d7a07a644b19ad1e0f6e',
 	},
 	{
 		name: 'Dough Girl',
@@ -103,6 +112,7 @@ const sampleRestaurants = [
 			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
 		price: '$$',
 		dateOpened: 2015,
+		submittedBy: '6057d7a07a644b19ad1e0f6e',
 	},
 	{
 		name: 'Masala',
@@ -112,6 +122,7 @@ const sampleRestaurants = [
 			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
 		price: '$$',
 		dateOpened: 2015,
+		submittedBy: '6057d7a07a644b19ad1e0f6e',
 	},
 	{
 		name: 'Grassfed Grill',
@@ -121,6 +132,7 @@ const sampleRestaurants = [
 			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
 		price: '$$',
 		dateOpened: 2015,
+		submittedBy: '6057d7a07a644b19ad1e0f6e',
 	},
 	{
 		name: "Freddy's Stove",
@@ -130,6 +142,7 @@ const sampleRestaurants = [
 			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
 		price: '$$',
 		dateOpened: 2015,
+		submittedBy: '6057d7a07a644b19ad1e0f6e',
 	},
 	{
 		name: 'Whispering Bamboo',
@@ -139,6 +152,7 @@ const sampleRestaurants = [
 			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
 		price: '$$',
 		dateOpened: 2015,
+		submittedBy: '6057d7a07a644b19ad1e0f6e',
 	},
 	{
 		name: 'Mediterra Seafood',
@@ -148,6 +162,7 @@ const sampleRestaurants = [
 			'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque commodi harum unde nesciunt minima! Culpa velit omnis dolore vitae, in ut repellendus fuga cupiditate totam excepturi ullam ab saepe similique.',
 		price: '$$',
 		dateOpened: 2015,
+		submittedBy: '6057d7a07a644b19ad1e0f6e',
 	},
 ];
 
