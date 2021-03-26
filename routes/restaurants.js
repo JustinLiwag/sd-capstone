@@ -9,6 +9,9 @@ const {
 	validateRestaurant,
 	isCreator,
 } = require('../middleware/middleware');
+const multer = require('multer');
+const { storage } = require('../cloudinary/index');
+const upload = multer({ storage });
 
 const Restaurant = require('../models/restaurant');
 
@@ -19,6 +22,7 @@ router
 	// Create New Restaurant Endpoint
 	.post(
 		isAuthenticated,
+		upload.array('image'),
 		validateRestaurant,
 		asyncCatcher(restaurant.postNewRestaurant)
 	);
@@ -34,6 +38,7 @@ router
 	.put(
 		isAuthenticated,
 		isCreator,
+		upload.array('image'),
 		validateRestaurant,
 		asyncCatcher(restaurant.updateRestaurant)
 	);

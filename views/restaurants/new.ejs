@@ -1,7 +1,7 @@
 <% layout("./layout/boilerplate") %>
 <h1 class="text-center">Create a new Restaurant</h1>
 <div class="col-6 offset-3">
-    <form class="needs-validation" action="/restaurants" method="POST" novalidate>
+    <form class="needs-validation" action="/restaurants" method="POST" novalidate enctype="multipart/form-data">
         <div class="mb-3">
             <label class="form-label" for="name">Name</label>
             <input class="form-control" type="text" id="name" name="restaurant[name]" required>
@@ -9,10 +9,6 @@
         <div class="mb-3">
             <label class="form-label" for="location">Restaurant Location</label>
             <input class="form-control" type="text" id="location" name="restaurant[location]" required>
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="image">Restaurant Image</label>
-            <input class="form-control" type="text" id="image" name="restaurant[image]" required>
         </div>
         <div class="mb-3">
             <label class="form-label" for="price">Restaurant Price</label>
@@ -29,6 +25,10 @@
         <div class="mb-3">
             <label class="form-label" for="dateOpened">Restaurant Open Date</label>
             <input class="form-control" type="text" id="dateOpened" name="restaurant[dateOpened]" required>
+        </div>
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Restaurant Images</label>
+            <input class="form-control" type="file" id="formFile" name="image" multiple>
         </div>
         <div class="mb-3">
             <button class="btn btn-success">Submit</button>

@@ -1,7 +1,9 @@
 <% layout("./layout/boilerplate") %>
+
 <h1 class="text-center">Edit <%=restaurant.name%></h1>
 <div class="col-6 offset-3">
-    <form class="needs-validation" action="/restaurants/<%=restaurant.id%>/?_method=PUT" method="POST" novalidate>
+    <form class="needs-validation" action="/restaurants/<%=restaurant.id%>/?_method=PUT" method="POST" novalidate
+        enctype="multipart/form-data">
         <div class="mb-3">
             <label class="form-label" for="name">Name</label>
             <input class="form-control" type="text" id="name" name="restaurant[name]" value="<%= restaurant.name %>"
@@ -11,11 +13,6 @@
             <label class="form-label" for="location">Restaurant Location</label>
             <input class="form-control" type="text" id="location" name="restaurant[location]"
                 value="<%= restaurant.location %>" required>
-        </div>
-        <div class=" mb-3">
-            <label class="form-label" for="image">Restaurant Image</label>
-            <input class="form-control" type="text" id="image" name="restaurant[image]" value="<%= restaurant.image %>"
-                required>
         </div>
         <div class=" mb-3">
             <label class="form-label" for="price">Restaurant Price</label>
@@ -36,6 +33,23 @@
                 value="<%= restaurant.dateOpened %>" required>
         </div>
         <div class="mb-3">
+            <label for="formFile" class="form-label">Restaurant Images</label>
+            <input class="form-control" type="file" id="formFile" name="image" multiple>
+        </div>
+
+        <div class="mb-3">
+            <h2>Delete Images</h2>
+            <% restaurant.image.forEach(function(img, i) { %>
+            <p>
+                <label class="fancy-checkbox-label" for="image<%=i%>">
+                    <input type="checkbox" name="selectedImages[]" id="image<%=i%>" value="<%=img.filename%>">
+                    <span class="fancy-checkbox fancy-checkbox-img"></span>
+                    <img src="<%= img.url%>" class="img-thumbnail" alt="" id="image<%=i%>">
+                </label>
+            </p>
+            <% }) %>
+        </div>
+        <div class=" mb-3">
             <button class="btn btn-success">Submit</button>
         </div>
     </form>

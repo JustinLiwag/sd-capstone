@@ -1,4 +1,5 @@
 const Restaurant = require('../models/restaurant');
+const { cloudinary } = require('../cloudinary/index');
 
 module.exports.renderIndex = async (req, res) => {
 	const restaurants = await Restaurant.find({});
@@ -11,8 +12,13 @@ module.exports.renderNew = (req, res) => {
 
 module.exports.postNewRestaurant = async (req, res) => {
 	const restaurant = new Restaurant(req.body.restaurant);
+	restaurant.image = req.files.map((f) => ({
+		url: f.path,
+		filename: f.filename,
+	}));
 	restaurant.submittedBy = req.user._id;
 	await restaurant.save();
+	console.log(restaurant);
 	req.flash('success', 'New restaurant was successfully added!');
 	res.redirect(`/restaurants/${restaurant.id}`);
 };
@@ -46,9 +52,24 @@ module.exports.renderEdit = async (req, res) => {
 
 module.exports.updateRestaurant = async (req, res) => {
 	const { id } = req.params;
+	console.log(req.body);
 	const restaurant = await Restaurant.findByIdAndUpdate(id, {
 		...req.body.restaurant,
 	});
+	const imgs = req.files.map((f) => ({
+		url: f.path,
+		filename: f.filename,
+	}));
+	restaurant.image.push(...imgs);
+	await restaurant.save();
+	if (req.body.selectedImages) {
+		for (let filename of req.body.selectedImages) {
+			await cloudinary.uploader.destroy(filename);
+		}
+		await restaurant.updateOne({
+			$pull: { image: { filename: { $in: req.body.selectedImages } } },
+		});
+	}
 	req.flash('success', 'Restaurant was successfully updated!');
 	res.redirect(`/restaurants/${restaurant.id}`);
 };

@@ -1,7 +1,26 @@
 <% layout("./layout/boilerplate") %>
 <link rel="stylesheet" href="/stars.css">
 
-<img style="width: 600px" src="<%=restaurant.image%>" alt="">
+
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <%  for(let [index, image] of restaurant.image.entries()) { %>
+        <div class="carousel-item <%= index === 0 && "active"   %> ">
+            <img src="<%= image.url %> " class="d-block w-100 active" alt="...">
+        </div>
+        <% } %>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<!-- <img style="width: 600px" src="<%=restaurant.image%>" alt=""> -->
 <h1><%= restaurant.name %></h1>
 <p>Opened: <%= restaurant.dateOpened %></p>
 <h2><%= restaurant.location %> <span><%= restaurant.price %></span></h2>
