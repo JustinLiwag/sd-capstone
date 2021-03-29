@@ -18,7 +18,6 @@ module.exports.postNewRestaurant = async (req, res) => {
 	}));
 	restaurant.submittedBy = req.user._id;
 	await restaurant.save();
-	console.log(restaurant);
 	req.flash('success', 'New restaurant was successfully added!');
 	res.redirect(`/restaurants/${restaurant.id}`);
 };
@@ -52,7 +51,6 @@ module.exports.renderEdit = async (req, res) => {
 
 module.exports.updateRestaurant = async (req, res) => {
 	const { id } = req.params;
-	console.log(req.body);
 	const restaurant = await Restaurant.findByIdAndUpdate(id, {
 		...req.body.restaurant,
 	});

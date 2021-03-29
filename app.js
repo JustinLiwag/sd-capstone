@@ -26,6 +26,7 @@ mongoose.connect('mongodb://localhost:27017/restaurantCapstone', {
 	useNewUrlParser: true,
 	useCreateIndex: true,
 	useUnifiedTopology: true,
+	useFindAndModify: true,
 });
 
 const db = mongoose.connection;

@@ -2,84 +2,104 @@
 <link rel="stylesheet" href="/stars.css">
 
 
-<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        <%  for(let [index, image] of restaurant.image.entries()) { %>
-        <div class="carousel-item <%= index === 0 && "active"   %> ">
-            <img src="<%= image.url %> " class="d-block w-100 active" alt="...">
+<a class="text-green-300 tracking-wide" href="/restaurants">
+    < Go back</a>
+        <div class="mt-4 md:flex items-center">
+            <div class="md:w-1/2 pr-4">
+                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <%  for(let [index, image] of restaurant.image.entries()) { %>
+                        <div class="carousel-item <%= index === 0 && "active"   %> ">
+                            <img class="w-full rounded-lg" src="<%= image.url %> " class="d-block w-100 active"
+                                alt="...">
+                        </div>
+                        <% } %>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="md:w-1/2 md:pl-4">
+                <p class="text-3xl text-gray-300 tracking-wider"><%= restaurant.location %></p>
+                <h1 class="inline-block text-4xl font-mono mt-4"><%= restaurant.name %></h1>
+                <h2 class="inline-block ml-2 text-green-300 tracking-widest"><span><%= restaurant.price %></span></h2>
+                <p class="mt-4 tracking-wide text-gray-500">Submitted By: <%= restaurant.submittedBy.username  %>
+                </p>
+                <p class="mt-2 leading-7 text-gray-600"><%= restaurant.description%></p>
+                <p class="mt-4 text-gray-700 tracking-widest">Opened: <%= restaurant.dateOpened %></p>
+
+
+
+
+
+                <% if(user && restaurant.submittedBy.equals(user) ) { %>
+                <div class="flex items-center mt-4">
+                    <div>
+                        <a class=" text-green-900 inline-block px-4 py-2 rounded bg-green-200 hover:text-green-900
+                hover:bg-green-300" href=" /restaurants/<%=restaurant.id%>/edit">Edit
+                            <%= restaurant.name %> </a>
+                    </div>
+                    <form class="ml-4" action="/restaurants/<%=restaurant.id%>/delete?_method=DELETE" method="POST">
+                        <button class="text-red-400 tracking-wide">Delete Restaurant</button>
+                    </form>
+                </div>
+                <% } %>
+            </div>
         </div>
-        <% } %>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div>
 
-<!-- <img style="width: 600px" src="<%=restaurant.image%>" alt=""> -->
-<h1><%= restaurant.name %></h1>
-<p>Opened: <%= restaurant.dateOpened %></p>
-<h2><%= restaurant.location %> <span><%= restaurant.price %></span></h2>
-<p>Submitted By: <%= restaurant.submittedBy.username  %> </p>
+        <!-- REVIEWS -->
 
-<p><%= restaurant.description%></p>
-<% if(user && restaurant.submittedBy.equals(user) ) { %>
-<div>
-    <a href="/restaurants/<%=restaurant.id%>/edit">Edit <%= restaurant.name %> </a>
-</div>
-<form action="/restaurants/<%=restaurant.id%>/delete?_method=DELETE" method="POST">
-    <button>Delete Restaurant</button>
-</form>
-<% } %>
-
-<% if(user) { %>
-<h2>Leave a Review</h2>
-<form class="needs-validation" action="/restaurants/<%=restaurant.id%>/reviews" method="POST" novalidate>
-    <!-- <div>
-        <label class="form-label" for="rating">Rating</label>
-        <input class="form-range" name="review[rating]" type="range" min="1" max="5" step="1" required>
-    </div> -->
-    <fieldset class="starability-heart">
-        <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked
-            aria-label="No rating." />
-        <input type="radio" id="first-rate1" name="review[rating]" value="1" />
-        <label for="first-rate1" title="Terrible">1 star</label>
-        <input type="radio" id="first-rate2" name="review[rating]" value="2" />
-        <label for="first-rate2" title="Not good">2 stars</label>
-        <input type="radio" id="first-rate3" name="review[rating]" value="3" />
-        <label for="first-rate3" title="Average">3 stars</label>
-        <input type="radio" id="first-rate4" name="review[rating]" value="4" />
-        <label for="first-rate4" title="Very good">4 stars</label>
-        <input type="radio" id="first-rate5" name="review[rating]" value="5" />
-        <label for="first-rate5" title="Amazing">5 stars</label>
-    </fieldset>
-    <div>
-        <label class="form-label" for="body">Review</label>
-        <textarea class="form-control" name="review[body]" id="body" cols="30" rows="5" required></textarea>
-    </div>
-    <button>Submit</button>
-</form>
-<% } %>
-<div>
-    <h3>Reviews</h3>
-    <% for (let reviews of restaurant.reviews) {%>
-    <div>
-        <p class="starability-result" data-rating="<%=reviews.rating%>">
-            Rated: <%=reviews.rating%> stars
-        </p>
-
-        <p>Author: <%= reviews.author.username %></p>
-        <p>Reviews: <%=reviews.body%></p>
-        <% if(user && reviews.author.equals(user) ) { %>
-        <form action="/restaurants/<%=restaurant.id%>/reviews/<%=reviews.id%>?_method=delete" method="POST">
-            <button>Delete</button>
+        <% if(user) { %>
+        <h2 class="mt-12 text-3xl text-gray-600">Have you been here? Leave a review!</h2>
+        <form class="mt-8 needs-validation" action="/restaurants/<%=restaurant.id%>/reviews" method="POST" novalidate>
+            <fieldset class="mb-0 starability-heart">
+                <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked
+                    aria-label="No rating." />
+                <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                <label for="first-rate1" title="Terrible">1 star</label>
+                <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                <label for="first-rate2" title="Not good">2 stars</label>
+                <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                <label for="first-rate3" title="Average">3 stars</label>
+                <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                <label for="first-rate4" title="Very good">4 stars</label>
+                <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                <label for="first-rate5" title="Amazing">5 stars</label>
+            </fieldset>
+            <div>
+                <label class="form-label text-2xl text-gray-600" for="body">Write a Review</label>
+                <textarea class="form-control" name="review[body]" id="body" cols="10" rows="5" required></textarea>
+            </div>
+            <button class="mt-4 text-green-900 inline-block px-4 py-2 rounded bg-green-200 hover:text-green-900
+    hover:bg-green-300">Submit</button>
         </form>
         <% } %>
-    </div>
-    <%}%>
+        <div class="mt-12 mb-48">
+            <h3 class="text-4xl font-mono text-gray-600">Reviews</h3>
+            <hr class="mt-4">
+            <% for (let reviews of restaurant.reviews) {%>
+            <div class="mt-4">
+                <p class="mt-2 text-2xl text-gray-600"><%=reviews.body%></p>
+                <p class="mt-2 stext-md text-green-900"><%= reviews.author.username %></p>
+                <p class="mt-2 starability-result" data-rating="<%=reviews.rating%>">
+                    Rated: <%=reviews.rating%> stars
+                </p>
+
+
+                <% if(user && reviews.author.equals(user) ) { %>
+                <form action="/restaurants/<%=restaurant.id%>/reviews/<%=reviews.id%>?_method=delete" method="POST">
+                    <button class="mt-3 text-red-600 tracking-wide">Delete My Review</button>
+                </form>
+                <% } %>
+            </div>
+            <%}%>
 </div>
-<a href="/restaurants">Go back to all the restaurants</a>

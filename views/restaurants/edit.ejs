@@ -1,7 +1,7 @@
 <% layout("./layout/boilerplate") %>
 
 <h1 class="text-center">Edit <%=restaurant.name%></h1>
-<div class="col-6 offset-3">
+<div class="w-3/4 md:w-1/2 mx-auto col-6 offset-3">
     <form class="needs-validation" action="/restaurants/<%=restaurant.id%>/?_method=PUT" method="POST" novalidate
         enctype="multipart/form-data">
         <div class="mb-3">
