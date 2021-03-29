@@ -21,8 +21,13 @@ const restaurantRoutes = require('./routes/restaurants');
 const reviewRoutes = require('./routes/reviews');
 const authRoutes = require('./routes/users');
 
+const MongoStore = require('connect-mongo');
+
+const url =
+	process.env.DB_STRING || 'mongodb://localhost:27017/restaurantCapstone';
+
 // Database Config
-mongoose.connect('mongodb://localhost:27017/restaurantCapstone', {
+mongoose.connect(url, {
 	useNewUrlParser: true,
 	useCreateIndex: true,
 	useUnifiedTopology: true,
@@ -50,9 +55,25 @@ app.use(express.urlencoded({ extended: true }));
 // Method Override for Forms
 app.use(methodOverride('_method'));
 
+// Connect Mongo Store
+const secret = process.env.SECRET || 'drake';
+
+const store = MongoStore.create({
+	mongoUrl: url,
+	touchAfter: 24 * 60 * 60,
+	crypto: {
+		secret,
+	},
+});
+
+store.on('error', (e) => {
+	console.log('Store Error', e);
+});
+
 // Express Session
 const sessionConfig = {
-	secret: 'drake',
+	store,
+	secret,
 	resave: false,
 	saveUninitialized: true,
 	cookie: {
